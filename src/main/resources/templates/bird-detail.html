@@ -8,14 +8,16 @@
 
 <h1 th:text="${birdName}">새 이름</h1>
 
-<p>성장 단계: <span th:text="${birdStage}">알</span></p>
-<p>친밀도: <span th:text="${affection}">0</span></p>
+<p>성장 단계: <span th:text="${bird.Stage}">알</span></p>
+<p>친밀도: <span th:text="${bird.affection}">0</span></p>
 
-<form th:action="@{/birds/{id}/feed(id=${birdId})}" method="post">
+<form th:action="@{/birds/{id}/feed(id=${bird.Id})}" method="post">
     <button type="submit">🍞 먹이주기</button>
 </form>
-
-<p th:if="${message}" th:text="${message}">메시지</p>
+<form th:action="@{/birds/{id}/pet(id=${bird.Id})}" method="post">
+    <button type="submit">🤲 쓰다듬기</button>
+</form>
+<p th:if="${messages}" th:text="${messages}">메시지</p>
 
 <br>
 <a href="/birds">← 목록으로</a>

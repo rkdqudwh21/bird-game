@@ -8,11 +8,11 @@
     <h1>내 새 목록</h1>
 
     <div style="border: 1px solid #ccc; padding: 20px; width: 250px;">
-        <h2 th:text="${birdName}">첫 번째알</h2>
-        <p>성장 단계: <span th:text="${birdStage}">알</span></p>
-        <p>친밀도: <span th:text="${affection}">0</span></p>
+        <h2 th:text="${bird.Name}">첫 번째알</h2>
+        <p>성장 단계: <span th:text="${bird.Stage}">알</span></p>
+        <p>친밀도: <span th:text="${bird.affection}">0</span></p>
 
-        <a href="/birds/1">자세히 보기</a>
+        <a th:href="@{/birds/{id}(id=${bird.id})}">자세히 보기</a>
         </div>
 
         <br>
