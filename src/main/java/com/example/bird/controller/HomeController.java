@@ -17,26 +17,36 @@ public class HomeController {
         this.birdRepository = birdRepository;
     }
 
-    // 🔥 최초 새 생성 (없으면 하나 만들어줌)
-    @GetMapping("/birds")
-    public String birds(Model model) {
+    // 🔥 내 새 목록 조회
+@GetMapping("/birds")
+public String birds(Model model) {
 
-        // 👉 DB에서 첫 번째 새 가져오기
-        Bird bird = birdRepository.findAll().stream().findFirst().orElse(null);
+    // 👉 DB에 저장된 모든 새를 가져온다.
+    // 👉 새 뽑기를 여러 번 하면 여러 마리가 리스트로 조회된다.
+    model.addAttribute("birds", birdRepository.findAll());
 
-        // 👉 없으면 새로 생성
-        if (bird == null) {
-            bird = new Bird();
-            bird.setName("첫번째 알");
-            bird.setAffection(0);
-            bird.setStage("알");
+    return "birds";
+}
+// 🔥 새 뽑기
+@PostMapping("/birds/draw")
+public String drawBird(RedirectAttributes redirectAttributes) {
 
-            birdRepository.save(bird); // 👉 DB에 저장
-        }
+    // 👉 새로운 새 객체 생성
+    Bird bird = new Bird();
 
-        model.addAttribute("bird", bird);
-        return "birds";
-    }
+    // 👉 처음 뽑힌 새는 항상 알 상태로 시작
+    bird.setName("새로운 알");
+    bird.setAffection(0);
+    bird.setStage("알");
+
+    // 👉 DB에 저장
+    birdRepository.save(bird);
+
+    // 👉 목록 페이지에서 보여줄 1회성 메시지
+    redirectAttributes.addFlashAttribute("message", "새로운 알을 뽑았습니다!");
+
+    return "redirect:/birds";
+}
 
     // 🔥 상세 페이지
     @GetMapping("/birds/{id}")
@@ -69,7 +79,7 @@ public class HomeController {
 
         birdRepository.save(bird); // 👉 변경 내용 DB 저장
 
-        redirectAttributes.addFlashAttribute("messages", "먹이를 줬습니다! +1");
+        redirectAttributes.addFlashAttribute("message", "먹이를 줬습니다! +1");
         return "redirect:/birds/" + id;
     }
 
@@ -82,9 +92,18 @@ public class HomeController {
         // 👉 친밀도 증가
         bird.setAffection(bird.getAffection() + 2);
 
+         // 👉 성장 단계 변경
+        if (bird.getAffection() >= 20) {
+            bird.setStage("닭");
+            bird.setName("첫번째 닭");
+        } else if (bird.getAffection() >= 10) {
+            bird.setStage("병아리");
+            bird.setName("첫번째 병아리");
+        }
+        
         birdRepository.save(bird);
 
-        redirectAttributes.addFlashAttribute("messages", "쓰다듬었습니다! +2");
+        redirectAttributes.addFlashAttribute("message", "쓰다듬었습니다! +2");
         return "redirect:/birds/" + id;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>내 새 목록</title>
@@ -7,15 +7,23 @@
 <body>
     <h1>내 새 목록</h1>
 
-    <div style="border: 1px solid #ccc; padding: 20px; width: 250px;">
-        <h2 th:text="${bird.Name}">첫 번째알</h2>
-        <p>성장 단계: <span th:text="${bird.Stage}">알</span></p>
+    <p th:if="${message}" th:text="${message}"></p>
+
+    <form action="/birds/draw" method="post">
+        <button type="submit">🥚 새 뽑기</button>
+    </form>
+
+    <br>
+
+    <div th:each="bird : ${birds}" style="border: 1px solid #ccc; padding: 20px; width: 250px; margin-bottom: 10px;">
+        <h2 th:text="${bird.name}">새 이름</h2>
+        <p>성장 단계: <span th:text="${bird.stage}">알</span></p>
         <p>친밀도: <span th:text="${bird.affection}">0</span></p>
 
         <a th:href="@{/birds/{id}(id=${bird.id})}">자세히 보기</a>
-        </div>
+    </div>
 
-        <br>
-        <a href="/">홈으로</a>
+    <br>
+    <a href="/">홈으로</a>
 </body>
 </html>
