@@ -6,6 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.PostMapping;
+
+
 
 @Controller
 public class HomeController {
@@ -137,5 +140,30 @@ public String drawBird(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message", "쓰다듬었습니다! +2");
         return "redirect:/birds/" + id;
     }
+    // 새와 대화하기
+    @PostMapping("/birds/{id}/chat")
+    public String chatWithBird(
+        @PathVariable Long id,
+        @RequestParam String message,
+        RedirectAttributes redirectAttributes
+    ){
+        Bird bird= birdRepository.findById(id).orElse(null);
+
+        if(bird == null){
+            redirectAttributes.addFlashAttribute("message","존재하지 않는 새입니다.");
+            return "redirect:/birds";
+        }
+
+        String response = bird.getName() +"가 말합니다: 짹짹! \""+message+"\"라고 말해줘서 기뻐요!";
+
+        redirectAttributes.addFlashAttribute("chatResponse", response);
+
+        return "redirect:/birds/"+id;
+        }
+    
+        
+        
 }
+    
+
     

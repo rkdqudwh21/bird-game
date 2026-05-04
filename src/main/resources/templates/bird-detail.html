@@ -19,7 +19,15 @@
 <form th:action="@{/birds/{id}/pet(id=${bird.Id})}" method="post">
     <button type="submit">🤲 쓰다듬기</button>
 </form>
-<p th:if="${message}" th:text="${message}">메시지</p>
+
+<h3>💬 새와 대화하기 </h3>
+<form th:action="@{/birds/{id}/chat(id=${bird.id})}" method="post">
+    <input type="text" name="message" placeholder="새에게 말을 걸어보세요." required>
+    <button type="submit">말 걸기</button>
+</form>
+
+<p th:if="${chatResponse}" th:text="${chatResponse}"></p>
+
 
 <br>
 <a href="/birds">← 목록으로</a>
