@@ -39,6 +39,9 @@ public String drawBird(RedirectAttributes redirectAttributes) {
     bird.setAffection(0);
     bird.setStage("알");
 
+    //처음에는 알 이미지
+    bird.setImageUrl("/images/birds/egg.jpg");
+
     // 👉 DB에 저장
     birdRepository.save(bird);
 
@@ -50,10 +53,15 @@ public String drawBird(RedirectAttributes redirectAttributes) {
 
     // 🔥 상세 페이지
     @GetMapping("/birds/{id}")
-    public String birdDetail(@PathVariable Long id, Model model) {
+    public String birdDetail(@PathVariable Long id, Model model,RedirectAttributes redirectAttributes) {
 
         // 👉 DB에서 새 조회
-        Bird bird = birdRepository.findById(id).orElseThrow();
+        Bird bird = birdRepository.findById(id).orElse(null);
+
+        if (bird == null){
+            redirectAttributes.addFlashAttribute("message","존재하지 않는 새입니다.");
+            return "redirect:/birds";
+        }
 
         model.addAttribute("bird", bird);
         return "bird-detail";
@@ -63,18 +71,30 @@ public String drawBird(RedirectAttributes redirectAttributes) {
     @PostMapping("/birds/{id}/feed")
     public String feed(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 
-        Bird bird = birdRepository.findById(id).orElseThrow();
+        Bird bird = birdRepository.findById(id).orElse(null);
 
-        // 👉 친밀도 증가
-        bird.setAffection(bird.getAffection() + 1);
+        if(bird==null){
+            redirectAttributes.addFlashAttribute("message", "존재하지 않는 새입니다.");
+            return "redirect/birds";
+        }
+
+        int newAffection = Math.min(bird.getAffection()+1,100);
+        bird.setAffection(newAffection);
 
         // 👉 성장 단계 변경
         if (bird.getAffection() >= 20) {
-            bird.setStage("닭");
-            bird.setName("첫번째 닭");
+            bird.setStage("어른 새");
+            bird.setName("첫번째 어른 새");
+
+            bird.setImageUrl("/images/birds/bird.jpg");
+
         } else if (bird.getAffection() >= 10) {
-            bird.setStage("병아리");
-            bird.setName("첫번째 병아리");
+            bird.setStage("아기 새");
+            bird.setName("첫번째 아기 새");
+
+            bird.setImageUrl("/images/birds/chick.jpg");
+        }else{
+            bird.setImageUrl("/images/birds/egg.jpg");
         }
 
         birdRepository.save(bird); // 👉 변경 내용 DB 저장
@@ -87,18 +107,29 @@ public String drawBird(RedirectAttributes redirectAttributes) {
     @PostMapping("/birds/{id}/pet")
     public String pet(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 
-        Bird bird = birdRepository.findById(id).orElseThrow();
+        Bird bird = birdRepository.findById(id).orElse(null);
 
-        // 👉 친밀도 증가
-        bird.setAffection(bird.getAffection() + 2);
+          if(bird==null){
+            redirectAttributes.addFlashAttribute("message", "존재하지 않는 새입니다.");
+            return "redirect/birds";
+        }
+
+        int newAffection = Math.min(bird.getAffection()+2,100);
+        bird.setAffection(newAffection);
 
          // 👉 성장 단계 변경
         if (bird.getAffection() >= 20) {
-            bird.setStage("닭");
-            bird.setName("첫번째 닭");
+            bird.setStage("어른 새");
+            bird.setName("첫번째 어른 새");
+
+            bird.setImageUrl("/images/birds/bird.jpg");
         } else if (bird.getAffection() >= 10) {
-            bird.setStage("병아리");
-            bird.setName("첫번째 병아리");
+            bird.setStage("아기 새");
+            bird.setName("첫번째 아기 새");
+
+            bird.setImageUrl("/images/birds/chick.jpg");
+        }else{
+            bird.setImageUrl("/images/birds/egg.jpg");
         }
         
         birdRepository.save(bird);

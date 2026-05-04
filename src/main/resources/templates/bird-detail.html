@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<img th:src="@{${bird.imageUrl}}" alt="새 이미지" width="250">
+
 <h1 th:text="${birdName}">새 이름</h1>
 
 <p>성장 단계: <span th:text="${bird.stage}">알</span></p>

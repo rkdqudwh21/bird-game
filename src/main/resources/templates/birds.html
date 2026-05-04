@@ -16,6 +16,8 @@
     <br>
 
     <div th:each="bird : ${birds}" style="border: 1px solid #ccc; padding: 20px; width: 250px; margin-bottom: 10px;">
+        <img th:src="@{${bird.imageUrl}}" alt="새 이미지" width="150">
+
         <h2 th:text="${bird.name}">새 이름</h2>
         <p>성장 단계: <span th:text="${bird.stage}">알</span></p>
         <p>친밀도: <span th:text="${bird.affection}">0</span></p>

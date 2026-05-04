@@ -21,4 +21,6 @@ public class Bird {
     private int affection;
 
     private String stage;
+
+    private String imageUrl;
 }
