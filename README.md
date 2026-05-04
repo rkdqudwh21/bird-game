@@ -1,4 +1,6 @@
 # 🐦 Bird Raising Project (새 키우기 프로젝트)
+- Spring Boot 기반 웹 서비스
+- OpenAI API 연동 AI 대화 기능 구현
 
 ## 📌 프로젝트 소개
 
