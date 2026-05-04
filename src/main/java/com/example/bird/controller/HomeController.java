@@ -1,12 +1,13 @@
 package com.example.bird.controller;
 
+import com.example.bird.service.BirdChatService;
 import com.example.bird.entity.Bird;
 import com.example.bird.repository.BirdRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.bind.annotation.PostMapping;
+
 
 
 
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class HomeController {
 
     private final BirdRepository birdRepository;
+    private final BirdChatService birdChatService;
 
     // 👉 생성자 주입 (Spring이 자동으로 넣어줌)
-    public HomeController(BirdRepository birdRepository) {
+    public HomeController(BirdRepository birdRepository, BirdChatService birdChatService) {
         this.birdRepository = birdRepository;
+        this.birdChatService = birdChatService;
     }
 
     // 🔥 내 새 목록 조회
@@ -78,7 +81,7 @@ public String drawBird(RedirectAttributes redirectAttributes) {
 
         if(bird==null){
             redirectAttributes.addFlashAttribute("message", "존재하지 않는 새입니다.");
-            return "redirect/birds";
+            return "redirect:/birds";
         }
 
         int newAffection = Math.min(bird.getAffection()+1,100);
@@ -114,7 +117,7 @@ public String drawBird(RedirectAttributes redirectAttributes) {
 
           if(bird==null){
             redirectAttributes.addFlashAttribute("message", "존재하지 않는 새입니다.");
-            return "redirect/birds";
+            return "redirect:/birds";
         }
 
         int newAffection = Math.min(bird.getAffection()+2,100);
@@ -154,8 +157,12 @@ public String drawBird(RedirectAttributes redirectAttributes) {
             return "redirect:/birds";
         }
 
-        String response = bird.getName() +"가 말합니다: 짹짹! \""+message+"\"라고 말해줘서 기뻐요!";
-
+        String response = birdChatService.chat(
+            bird.getName(), 
+            bird.getStage(), 
+            bird.getAffection(), 
+            message);
+            
         redirectAttributes.addFlashAttribute("chatResponse", response);
 
         return "redirect:/birds/"+id;
