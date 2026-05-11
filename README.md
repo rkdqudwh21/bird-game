@@ -148,10 +148,12 @@ http://localhost:8080/birds
 희귀도별 이미지 시스템
 AI 대화 기능
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/59ed6517-d89d-4f4e-8e52-14908bbe5485" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/61c4707b-a176-45d1-9494-470550c16377" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b19cf4e9-f25a-443f-b177-1cd64582e1d1" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/258c8190-f077-478a-a702-b734f2f3642a" />
+<img width="1920" height="1080" alt="d" src="https://github.com/user-attachments/assets/3a9806c1-1865-4acf-80cb-4e69c8311fbe" />
+<img width="1920" height="1080" alt="c" src="https://github.com/user-attachments/assets/32723563-0063-4122-bd50-59f06675cd84" />
+<img width="1920" height="1080" alt="b" src="https://github.com/user-attachments/assets/8e893323-d108-4363-96f6-c8021476e6e2" />
+<img width="1920" height="1080" alt="a" src="https://github.com/user-attachments/assets/95eaae09-84f9-4a94-9b8d-01282555fedd" />
+
+
 
 
 
