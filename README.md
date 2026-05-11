@@ -1,137 +1,178 @@
 # 🐦 Bird Raising Project (새 키우기 프로젝트)
-- Spring Boot 기반 웹 서비스
-- OpenAI API 연동 AI 대화 기능 구현
 
-## 📌 프로젝트 소개
+Spring Boot 기반으로 상태 변화와 랜덤 요소를 포함한  
+수집형 캐릭터 성장 웹서비스를 구현한 개인 프로젝트입니다.
 
-간단한 **새 키우기 웹 서비스**입니다.
-사용자는 새를 뽑고, 먹이를 주거나 쓰다듬으며 성장시키는 과정을 경험할 수 있습니다.
+사용자는 새를 뽑고 상호작용을 통해 친밀도를 높이며,  
+희귀도 및 성장 단계에 따라 변화하는 캐릭터 시스템을 경험할 수 있습니다.
 
----
-
-## 🚀 주요 기능
-
-### 1. 새 뽑기
-
-* 새로운 새를 생성
-* 기본 상태: **알**
-* 초기 친밀도: 0
-
-### 2. 새 목록 조회
-
-* 내가 보유한 모든 새 확인
-* 이름 / 성장 단계 / 친밀도 표시
-
-### 3. 새 상세 보기
-
-* 개별 새의 상세 정보 확인
-* 행동(먹이주기, 쓰다듬기) 가능
-
-### 4. 상호작용 (핵심 기능)
-
-* 먹이주기: 친밀도 +1
-* 쓰다듬기: 친밀도 +2
-
-### 5. 성장 시스템
-
-* 0 ~ 9 → 🥚 알
-* 10 ~ 19 → 🐥 아기 새
-* 20 이상 → 🐔 어른 새
-
-### 6. 이미지 변화
-
-* 성장 단계에 따라 이미지 변경
-
-  * 알 → egg.jpg
-  * 아기 새 → chick.jpg
-  * 어른 새 → bird.jpg
-
-### 7. 예외 처리
-
-* 존재하지 않는 새 접근 시 목록으로 리다이렉트
-* 친밀도 최대값 100 제한
+또한 OpenAI API를 연동하여  
+새와 자연어 대화가 가능한 AI 기능을 구현했습니다.
 
 ---
 
-## 🛠️ 기술 스택
-
-* **Backend**: Java, Spring Boot
-* **Database**: H2 (또는 MySQL)
-* **ORM**: Spring Data JPA
-* **Frontend**: Thymeleaf
-* **Build Tool**: Gradle
-* **Version Control**: Git / GitHub
+github: https://github.com/rkdqudwh21/bird-game
 
 ---
 
-## 📂 프로젝트 구조
+# ⭐ 핵심 기능 요약
+
+- COMMON / RARE / EPIC / LEGENDARY 희귀도 시스템
+- 랜덤 확률 기반 새 뽑기 기능
+- 성장 단계 기반 상태 변화 시스템
+- 희귀도 + 성장 단계 기반 이미지 자동 변경
+- OpenAI API 기반 AI 대화 기능
+- Thymeleaf 기반 카드형 UI 구현
+
+---
+
+# 🛠️ 사용 기술
 
 ```text
-src
- ├─ controller
- │   └─ HomeController.java
- ├─ entity
- │   └─ Bird.java
- ├─ repository
- │   └─ BirdRepository.java
- └─ resources
-     ├─ templates
-     │   ├─ birds.html
-     │   └─ bird-detail.html
-     └─ static
-         └─ images
-             └─ birds
-                 ├─ egg.jpg
-                 ├─ chick.jpg
-                 └─ bird.jpg
-```
+Backend: Spring Boot, Spring Data JPA
+Frontend: Thymeleaf
+Database: H2 (개발용)
+Build Tool: Gradle
+Language: Java
+📂 프로젝트 구조
+Controller → 요청 처리
+Entity → DB 테이블 구조
+Repository → DB 접근
+Template → 화면 (Thymeleaf)
+🚀 구현 기능
+1️⃣ 홈 및 새 목록
+/ : 메인 화면
+/birds : 새 목록 조회
+여러 마리 새 생성 가능
+2️⃣ 새 상세 페이지
+/birds/{id}
+새 이름, 성장 단계, 친밀도 표시
+희귀도 및 이미지 확인 가능
+3️⃣ 랜덤 뽑기 시스템
+Random 클래스를 활용한 확률 기반 희귀도 분기 구현
+COMMON      60%
+RARE         25%
+EPIC         10%
+LEGENDARY     5%
+희귀도에 따라 다른 알 이미지 적용
+4️⃣ 상호작용 기능
+🍞 먹이주기
+친밀도 +1 증가
+상태에 따라 성장 단계 변경
+🤲 쓰다듬기
+친밀도 +2 증가
+상태 기반 반응 메시지 출력
+5️⃣ 성장 단계 로직
+0 ~ 9   → 알
+10 ~ 19 → 아기 새
+20 이상 → 어른 새
+친밀도에 따라 자동으로 성장 단계 변경
+단계별 이름 자동 변경
 
----
+예시:
 
-## ▶️ 실행 방법
+COMMON 아기 새
+RARE 어른 새
+LEGENDARY 어른 새
+6️⃣ 🖼️ 희귀도 및 이미지 시스템
+COMMON / RARE / EPIC / LEGENDARY 희귀도 시스템 구현
+성장 단계와 희귀도에 따라 이미지 자동 변경
+imageUrl 값을 DB에 저장 후 Thymeleaf에서 동적 렌더링
 
-```bash
-git clone <your-repository-url>
-cd bird
+예시:
+
+COMMON 알 → egg.jpg
+RARE 알 → blue-egg.jpg
+EPIC 어른 새 → epic-bird.png
+LEGENDARY 어른 새 → legendary-bird.png
+7️⃣ 상태 기반 메시지 시스템
+알 단계 → "알이 살짝 흔들립니다."
+아기 새 → "삐약삐약 좋아합니다."
+어른 새 → "꼬꼬댁!"
+
+👉 동일 행동이라도 상태에 따라 다른 반응 구현
+
+8️⃣ DB 연동
+Bird 엔티티 생성
+JPA Repository 사용
+데이터 DB 저장 및 조회 구현
+서버 재시작 후에도 데이터 유지 가능
+9️⃣ AI 대화 기능
+OpenAI API를 활용하여 새와 자연어 대화 기능 구현
+사용자 입력에 따라 동적으로 응답 생성
+새의 상태(이름, 성장 단계, 친밀도)를 기반으로 캐릭터 설정
+
+예시:
+
+"안녕"
+→ "나는 햇빛과 따뜻한 곳이 좋아! 😊"
+💡 핵심 구현 포인트
+JPA를 활용한 CRUD 구조 이해
+Controller → View → DB 흐름 구현
+상태 기반 로직 처리 (if 조건 기반 게임 로직)
+Random 클래스를 활용한 확률 기반 희귀도 분기 구현
+이미지 경로를 DB에 저장하여 상태별 이미지 동적 변경 구현
+Thymeleaf th:src를 활용한 이미지 렌더링 처리
+정적 리소스(static) 경로 구조 이해 및 적용
+OpenAI API 기반 AI 대화 기능 구현
+🔥 트러블슈팅
+이미지가 출력되지 않던 문제
+문제
+성장 후 이미지가 출력되지 않는 문제 발생
+원인
+실제 파일은 .png인데 코드에서 .jpg로 접근
+상대경로 사용으로 인해 잘못된 URL 접근 발생
+해결
+getImageUrlByStageAndRarity() 메서드 수정
+이미지 경로를 /images/... 형태로 통일
+Thymeleaf th:src="@{${bird.imageUrl}}" 적용
+희귀도 알 이미지가 적용되지 않던 문제
+문제
+RARE 알인데 기본 알 이미지가 출력됨
+원인
+"알" 상태에 대한 rarity 분기 누락
+해결
+stage == "알" 조건 추가
+rarity 기반 알 이미지 분기 구현
+▶️ 실행 방법
+git clone https://github.com/rkdqudwh21/bird-game.git
+cd bird-game
 ./gradlew bootRun
-```
 
 브라우저 접속:
 
-```text
 http://localhost:8080/birds
-```
+📸 화면 예시
+새 목록 화면
+새 상세 페이지
+희귀도별 이미지 시스템
+AI 대화 기능
 
----
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/59ed6517-d89d-4f4e-8e52-14908bbe5485" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/61c4707b-a176-45d1-9494-470550c16377" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b19cf4e9-f25a-443f-b177-1cd64582e1d1" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/258c8190-f077-478a-a702-b734f2f3642a" />
 
-## 📸 화면 예시
 
-(여기에 스크린샷 추가 예정)
 
----
+📌 향후 개선 계획
+로그인 기능 추가
+캐릭터 성격 시스템
+날씨 API 연동
+경험치 및 아이템 시스템
+성장 결과 다양화 (랜덤 진화)
+알 랜덤 색상 / 패턴 시스템
+🔥 느낀 점
 
-## 📈 향후 개선 기능
+단순 CRUD 구현을 넘어,
+상태 변화와 랜덤 요소가 포함된 로직을 직접 설계하고 구현할 수 있었습니다.
 
-* 🎨 알 랜덤 색상 / 패턴 시스템
-* 🧬 성장 결과 다양화 (랜덤 진화)
-* 🌐 외부 API 연동 (날씨 / AI 등)
-* 🎮 게임 요소 추가 (경험치, 아이템 등)
+또한 Thymeleaf 기반 동적 이미지 처리,
+JPA를 활용한 데이터 저장 구조,
+OpenAI API 연동을 경험하며
+웹 서비스의 전체 흐름에 대한 이해를 높일 수 있었습니다.
 
----
+💬 한 줄 요약
 
-## 💡 느낀 점
-
-Spring Boot 기반 CRUD 흐름과
-Thymeleaf를 활용한 화면 렌더링,
-그리고 상태 변화(성장 시스템)를 구현하면서
-기초적인 웹 서비스 구조를 이해할 수 있었습니다.
-
-## 주요 기능
-
-- 새 랜덤 뽑기 기능
-- COMMON / RARE / EPIC / LEGENDARY 희귀도 시스템
-- 희귀도별 알 이미지 및 성장 이미지 분기
-- 친밀도 기반 성장 단계 변화
-- 먹이주기 / 쓰다듬기 상호작용
-- OpenAI API 기반 새와 대화 기능
-- Thymeleaf 기반 카드형 UI
+Spring Boot 기반으로 상태 변화와 랜덤 요소를 포함한 수집형 캐릭터 성장 웹서비스를 구현하고,
+희귀도 시스템 / 이미지 동적 변경 / OpenAI API 기반 AI 대화 기능을 구현했습니다.
