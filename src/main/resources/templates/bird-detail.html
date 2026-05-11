@@ -8,10 +8,13 @@
 
 <img th:src="@{${bird.imageUrl}}" alt="새 이미지" width="250">
 
-<h1 th:text="${birdName}">새 이름</h1>
+<h1 th:text="${bird.name}">새 이름</h1>
 
 <p>성장 단계: <span th:text="${bird.stage}">알</span></p>
 <p>친밀도: <span th:text="${bird.affection}">0</span></p>
+<p>등급: <span th:text="${bird.rarity}">COMMON</span></p>
+<p>알 무늬: <span th:text="${bird.eggPattern}">기본 알</span></p>
+<p>부화 확률: <span th:text="${bird.hatchRate}">70</span>%</p>
 
 <form th:action="@{/birds/{id}/feed(id=${bird.Id})}" method="post">
     <button type="submit">🍞 먹이주기</button>

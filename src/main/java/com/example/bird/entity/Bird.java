@@ -23,4 +23,10 @@ public class Bird {
     private String stage;
 
     private String imageUrl;
+
+    private String rarity;
+
+    private String eggPattern;
+
+    private int hatchRate;
 }

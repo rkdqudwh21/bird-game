@@ -1,6 +1,9 @@
 package com.example.bird.controller;
 
 import com.example.bird.service.BirdChatService;
+
+import java.util.Random;
+
 import com.example.bird.entity.Bird;
 import com.example.bird.repository.BirdRepository;
 import org.springframework.stereotype.Controller;
@@ -45,11 +48,33 @@ public String drawBird(RedirectAttributes redirectAttributes) {
     bird.setAffection(0);
     bird.setStage("알");
 
-    //처음에는 알 이미지
-    bird.setImageUrl("/images/birds/egg.jpg");
+   int random = new Random().nextInt(100);
 
-    // 👉 DB에 저장
-    birdRepository.save(bird);
+   if(random < 60){
+    bird.setRarity("COMMON");
+    bird.setEggPattern("기본 알");
+    bird.setHatchRate(70);
+    bird.setImageUrl("images/birds/egg.jpg");
+   }else if(random < 85){
+    bird.setRarity("RARE");
+    bird.setEggPattern("파란 알");
+    bird.setHatchRate(50);
+    bird.setImageUrl("images/birds/blue-egg.jpg");
+   }else if(random < 95){
+    bird.setRarity("EPIC");
+    bird.setEggPattern("황금 알");
+    bird.setHatchRate(30);
+    bird.setImageUrl("images/birds/golden-egg.jpg");
+   }else{
+    bird.setRarity("LEGENDARY");
+    bird.setEggPattern("전설 알");    
+    bird.setHatchRate(10);
+    bird.setImageUrl("images/birds/legendary-egg.jpg");
+   }
+
+   birdRepository.save(bird);
+
+
 
     // 👉 목록 페이지에서 보여줄 1회성 메시지
     redirectAttributes.addFlashAttribute("message", "새로운 알을 뽑았습니다!");
