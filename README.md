@@ -177,5 +177,16 @@ OpenAI API 연동을 경험하며
 
 💬 한 줄 요약
 
-Spring Boot 기반으로 상태 변화와 랜덤 요소를 포함한 수집형 캐릭터 성장 웹서비스를 구현하고,
-희귀도 시스템 / 이미지 동적 변경 / OpenAI API 기반 AI 대화 기능을 구현했습니다.
+
+## 주요 기능
+
+- 새 랜덤 뽑기 기능
+- COMMON / RARE / EPIC / LEGENDARY 희귀도 시스템
+- 희귀도별 알 이미지 및 성장 이미지 분기
+- 친밀도 기반 성장 단계 변화
+- 먹이주기 / 쓰다듬기 상호작용
+- Thymeleaf 기반 카드형 UI
+- OpenAI API 기반 AI 캐릭터 대화 기능
+- 성격(Enum) 기반 프롬프트 분기 처리
+- REST API 설계 및 Swagger 문서화
+- Spring Boot 기반 API 서버 구현

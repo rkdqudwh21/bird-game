@@ -5,6 +5,7 @@ import com.example.bird.service.BirdChatService;
 import java.util.Random;
 
 import com.example.bird.entity.Bird;
+import com.example.bird.entity.Personality;
 import com.example.bird.repository.BirdRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,11 @@ public class HomeController {
 
     private final BirdRepository birdRepository;
     private final BirdChatService birdChatService;
+    private Personality getRandomPersonality() {
+    Personality[] personalities = Personality.values();
+    int index = new Random().nextInt(personalities.length);
+    return personalities[index];
+}
 
     // 👉 생성자 주입 (Spring이 자동으로 넣어줌)
     public HomeController(BirdRepository birdRepository, BirdChatService birdChatService) {
@@ -68,6 +74,7 @@ public String drawBird(RedirectAttributes redirectAttributes) {
     bird.setHatchRate(10);
    }
    bird.setImageUrl(getImageUrlByStageAndRarity(bird.getStage(), bird.getRarity()));
+   bird.setPersonality(getRandomPersonality());
    birdRepository.save(bird);
 
 
@@ -167,10 +174,12 @@ bird.setImageUrl(getImageUrlByStageAndRarity(bird.getStage(), bird.getRarity()))
         }
 
         String response = birdChatService.chat(
-            bird.getName(), 
-            bird.getStage(), 
-            bird.getAffection(), 
-            message);
+        bird.getName(),
+        bird.getStage(),
+        bird.getAffection(),
+        bird.getPersonality(),
+        message
+);
             
         redirectAttributes.addFlashAttribute("chatResponse", response);
 

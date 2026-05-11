@@ -1,6 +1,8 @@
 package com.example.bird.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,4 +31,7 @@ public class Bird {
     private String eggPattern;
 
     private int hatchRate;
+
+    @Enumerated(EnumType.STRING)
+    private Personality personality;
 }
