@@ -3,37 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <title>새 상세</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: Arial, sans-serif;
+            background: #f6f7fb;
+            color: #222;
+        }
+
+        .detail-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .image-card,
+        .info-card,
+        .chat-card {
+            background: white;
+            border-radius: 24px;
+            padding: 26px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .image-card {
+            text-align: center;
+        }
+
+        .bird-image {
+            max-width: 330px;
+            max-height: 430px;
+            object-fit: contain;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 34px;
+        }
+
+        .info {
+            margin: 12px 0;
+            font-size: 16px;
+        }
+
+        .rarity-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .COMMON {
+            background: #777;
+        }
+
+        .RARE {
+            background: #2f80ed;
+        }
+
+        .EPIC {
+            background: #9b51e0;
+        }
+
+        .LEGENDARY {
+            background: #f2a900;
+        }
+
+        .progress-box {
+            margin: 18px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ff9f43;
+            border-radius: 999px;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+        }
+
+        .feed-btn {
+            background: #ffd166;
+        }
+
+        .pet-btn {
+            background: #cdb4db;
+        }
+
+        .chat-card {
+            margin-top: 24px;
+        }
+
+        .chat-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-form input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+        }
+
+        .chat-btn {
+            background: #222;
+            color: white;
+        }
+
+        .chat-response {
+            margin-top: 16px;
+            background: #f1f5ff;
+            border-radius: 14px;
+            padding: 16px;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 24px;
+            color: #555;
+            text-decoration: none;
+        }
+
+        @media (max-width: 850px) {
+            .detail-container {
+                grid-template-columns: 1fr;
+            }
+
+            .bird-image {
+                max-width: 260px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<img th:src="@{${bird.imageUrl}}" alt="새 이미지" width="250">
+<div class="detail-container">
 
-<h1 th:text="${bird.name}">새 이름</h1>
+    <div class="image-card">
+        <img class="bird-image" th:src="@{${bird.imageUrl}}" alt="새 이미지">
+    </div>
 
-<p>성장 단계: <span th:text="${bird.stage}">알</span></p>
-<p>친밀도: <span th:text="${bird.affection}">0</span></p>
-<p>등급: <span th:text="${bird.rarity}">COMMON</span></p>
-<p>알 무늬: <span th:text="${bird.eggPattern}">기본 알</span></p>
-<p>부화 확률: <span th:text="${bird.hatchRate}">70</span>%</p>
+    <div>
+        <div class="info-card">
+            <h1 th:text="${bird.name}">새 이름</h1>
 
-<form th:action="@{/birds/{id}/feed(id=${bird.Id})}" method="post">
-    <button type="submit">🍞 먹이주기</button>
-</form>
-<form th:action="@{/birds/{id}/pet(id=${bird.Id})}" method="post">
-    <button type="submit">🤲 쓰다듬기</button>
-</form>
+            <p class="info">
+                등급:
+                <span class="rarity-badge"
+                      th:text="${bird.rarity}"
+                      th:classappend="' ' + ${bird.rarity}">
+                    COMMON
+                </span>
+            </p>
 
-<h3>💬 새와 대화하기 </h3>
-<form th:action="@{/birds/{id}/chat(id=${bird.id})}" method="post">
-    <input type="text" name="message" placeholder="새에게 말을 걸어보세요." required>
-    <button type="submit">말 걸기</button>
-</form>
+            <p class="info">성장 단계: <span th:text="${bird.stage}">알</span></p>
+            <p class="info">알 무늬: <span th:text="${bird.eggPattern}">기본 알</span></p>
+            <p class="info">부화 확률: <span th:text="${bird.hatchRate}">70</span>%</p>
 
-<p th:if="${chatResponse}" th:text="${chatResponse}"></p>
+            <div class="progress-box">
+                <div class="progress-label">
+                    <span>친밀도</span>
+                    <span th:text="${bird.affection} + '/100'">0/100</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"
+                         th:style="'width:' + ${bird.affection} + '%'">
+                    </div>
+                </div>
+            </div>
 
+            <div class="action-row">
+                <form th:action="@{/birds/{id}/feed(id=${bird.id})}" method="post">
+                    <button class="feed-btn" type="submit">🍞 먹이주기</button>
+                </form>
 
-<br>
-<a href="/birds">← 목록으로</a>
+                <form th:action="@{/birds/{id}/pet(id=${bird.id})}" method="post">
+                    <button class="pet-btn" type="submit">🤲 쓰다듬기</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="chat-card">
+            <h3>💬 새와 대화하기</h3>
+
+            <form class="chat-form" th:action="@{/birds/{id}/chat(id=${bird.id})}" method="post">
+                <input type="text" name="message" placeholder="새에게 말을 걸어보세요." required>
+                <button class="chat-btn" type="submit">말 걸기</button>
+            </form>
+
+            <p class="chat-response" th:if="${chatResponse}" th:text="${chatResponse}"></p>
+        </div>
+
+        <a class="back-link" href="/birds">← 목록으로</a>
+    </div>
+
+</div>
 
 </body>
 </html>

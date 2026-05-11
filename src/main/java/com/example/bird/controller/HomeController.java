@@ -54,24 +54,20 @@ public String drawBird(RedirectAttributes redirectAttributes) {
     bird.setRarity("COMMON");
     bird.setEggPattern("기본 알");
     bird.setHatchRate(70);
-    bird.setImageUrl("images/birds/egg.jpg");
    }else if(random < 85){
     bird.setRarity("RARE");
     bird.setEggPattern("파란 알");
     bird.setHatchRate(50);
-    bird.setImageUrl("images/birds/blue-egg.jpg");
    }else if(random < 95){
     bird.setRarity("EPIC");
     bird.setEggPattern("황금 알");
     bird.setHatchRate(30);
-    bird.setImageUrl("images/birds/golden-egg.jpg");
    }else{
     bird.setRarity("LEGENDARY");
     bird.setEggPattern("전설 알");    
     bird.setHatchRate(10);
-    bird.setImageUrl("images/birds/legendary-egg.jpg");
    }
-
+   bird.setImageUrl(getImageUrlByStageAndRarity(bird.getStage(), bird.getRarity()));
    birdRepository.save(bird);
 
 
@@ -115,19 +111,13 @@ public String drawBird(RedirectAttributes redirectAttributes) {
         // 👉 성장 단계 변경
         if (bird.getAffection() >= 20) {
             bird.setStage("어른 새");
-            bird.setName("첫번째 어른 새");
-
-            bird.setImageUrl("/images/birds/bird.jpg");
-
+            bird.setName(bird.getRarity() + " 어른 새");
         } else if (bird.getAffection() >= 10) {
             bird.setStage("아기 새");
-            bird.setName("첫번째 아기 새");
+            bird.setName(bird.getRarity() + " 아기 새");
+}
 
-            bird.setImageUrl("/images/birds/chick.jpg");
-        }else{
-            bird.setImageUrl("/images/birds/egg.jpg");
-        }
-
+bird.setImageUrl(getImageUrlByStageAndRarity(bird.getStage(), bird.getRarity()));
         birdRepository.save(bird); // 👉 변경 내용 DB 저장
 
         redirectAttributes.addFlashAttribute("message", "먹이를 줬습니다! +1");
@@ -148,21 +138,15 @@ public String drawBird(RedirectAttributes redirectAttributes) {
         int newAffection = Math.min(bird.getAffection()+2,100);
         bird.setAffection(newAffection);
 
-         // 👉 성장 단계 변경
-        if (bird.getAffection() >= 20) {
+         if (bird.getAffection() >= 20) {
             bird.setStage("어른 새");
-            bird.setName("첫번째 어른 새");
-
-            bird.setImageUrl("/images/birds/bird.jpg");
+            bird.setName(bird.getRarity() + " 어른 새");
         } else if (bird.getAffection() >= 10) {
             bird.setStage("아기 새");
-            bird.setName("첫번째 아기 새");
+        bird.setName(bird.getRarity() + " 아기 새");
+}
 
-            bird.setImageUrl("/images/birds/chick.jpg");
-        }else{
-            bird.setImageUrl("/images/birds/egg.jpg");
-        }
-        
+        bird.setImageUrl(getImageUrlByStageAndRarity(bird.getStage(), bird.getRarity()));
         birdRepository.save(bird);
 
         redirectAttributes.addFlashAttribute("message", "쓰다듬었습니다! +2");
@@ -192,10 +176,41 @@ public String drawBird(RedirectAttributes redirectAttributes) {
 
         return "redirect:/birds/"+id;
         }
-    
-        
-        
+    private String getImageUrlByStageAndRarity(String stage, String rarity){
+        if("알".equals(stage)){
+        if("RARE".equals(rarity)){
+            return "/images/birds/blue-egg.jpg";
+        }else if("EPIC".equals(rarity)){
+            return "/images/birds/golden-egg.jpg";
+        }else if("LEGENDARY".equals(rarity)){
+            return "/images/birds/legendary-egg.jpg";
+        }else{
+            return "/images/birds/egg.jpg";
+        }
+    }
+        if("아기 새".equals(stage)){
+            if  ("RARE".equals(rarity)){
+                return "/images/birds/rare-chick.png";
+            }else if("EPIC".equals(rarity)){
+                return "/images/birds/epic-chick.png"; 
+            }else if("LEGENDARY".equals(rarity)){
+                return "/images/birds/legendary-chick.png";
+            }else{
+                return "/images/birds/common-chick.png";
+            }
+        }else if("어른 새".equals(stage)){
+            if("RARE".equals(rarity)){
+                return "/images/birds/rare-bird.png";
+            }else if("EPIC".equals(rarity)){
+                return "/images/birds/epic-bird.png";
+            }else if("LEGENDARY".equals(rarity)){
+                return "/images/birds/legendary-bird.png";
+            }else{
+                return "/images/birds/common-bird.png";
+            }
+        }
+        return "/images/birds/egg.jpg"; // 기본 이미지
+    }
 }
-    
 
     
